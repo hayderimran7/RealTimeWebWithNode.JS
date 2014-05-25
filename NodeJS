@@ -1,0 +1,219 @@
+	
+
+
+
+
+
+CMPE 294
+RESEARCH PAPER ON REAL-TIME WEB WITH NODE .JS 
+
+Instructor:	Prof. Michael Robinson &
+
+       Prof. Vicki Parrish
+
+Student Name:    Muhammad Imran hayder Malik (009175231)
+                               Vivek Chauhan      (009293349 )
+
+
+ 
+	Real Time Processing using Node.JS
+
+ 
+Vivek Chauhan 
+Department of Computer Engineering
+San Jose State University 
+Muhammad Malik
+Department of Computer Engineering
+San Jose State University 
+
+
+ 
+Abstract—Javascript has become ubiquitous in modern web development paradigm. In the recent years, web pages have been empowered into substantially dynamic high-end entities due to efficient programming end offered by Javascript. But its implementation has been limited to client side only such as browsers. The server-side scripting has been done in entirely different languages such as PHP, Python etc. This surfaced a new problem for programmers, who had to program in two different languages; Javascript on client-side and PHP/Python on server and there was no cross-translation between these two platforms. Also as a programmer, one had to keep two different skill-set. . For awhile, a solution to this conundrum was just a dream: JS was too slow to realistically serve pages, and PHP couldn't run client-side in everyone's browser. The result is Node.js, where you can code Javascript on the server. Node.js emerged as the part of solution finally when Google pushed its V8 Engine to improve Javascript performance. Node.js is built on same engine designed by Google. The native language for developing applications on this platform is JavaScript. This paper outlines all the essential concepts and working of this new age platform of Node.js. We also describe various applications and programming models used in this platform so far.
+Index Terms—Javascript, node.js, PHP, web development, browsers
+I.	INTRODUCTION
+Traditional server-client programming is based on the synchronous model. It means that a client has to wait for the server to process the previous request before giving any new request. It leads to a delay in processing request. Such a working mechanism adds significant delays in modern era web where a client wishes to perform multiple tasks on the browser, and it has to wait for each task before it can get waiting task to work[1]. This approach is called as "Blocking I/O" and with its synchronous features is considered as naive for modern web development paradigm. 
+Node.js is a single-threaded Javascript environment which acts as a standalone web application server. It uses the Reactor Pattern so that it begins new tasks instead of waiting for previous ones to complete; all of that implemented with no use of multiple threads[2]. Since it's a Javascript environment, it provides a great cross-platform communication between client and server. A common issue for most web servers is where a server application is in blocking state waiting for a reply from the database or waiting on a file system. This leads to a server failure when site is overloaded with heavy traffic from user-base. 
+Node.js is a JavaScript platform which solves this scalability issue. It is built on the top of Google’s V8 chrome engine. V8 is implemented using C and C++. The main focus of this engine is on less memory consumption and high performance. The support for long running process or the daemon processes is also one of the interesting features of the Node[3].
+Node uses asynchronous I/O event driven model for supporting multiple transactions. Call backs are used to ensure the concurrency of multiple requests. The asynchronous approach is much different from the traditional approach which heavily relies on multi-threading. In contrast, node only uses a single thread which uses the V8 engine to support the programming module.Node.js is an excellent fit for the callback model. JavaScript has support for creating customized callbacks. A user can create function objects which can then be used to handle events. The key advantage of Node.js is it supports non-blocking IO, so the server application can do different tasks while waiting for a reply from the database, file system, or remote network connections. The only disadvantage of node.js is that it has to research the entire web application framework, and there is currently a lack of frameworks built on Node.js that offer the kind of flow web developers are used to. The nice thing about Node.js is that it has a cool way of handling multiple connections and processing thousands of simultaneous requests. Applications like chat servers and social networking sites find Node.js hugely popular and interesting for them[5]. 
+II.	CHARACTERISTICS OF NODE.JS
+Node.js has the following characteristics:
+i.	Node.js is a singly threaded environment, there is no such thing as multithreading involved in its programming. 
+ii.	It is not a web framework, it is a very low level language built on C and Javascript.
+iii.	Node.js runs Javascript, but isn't entirely Javascript since part of Node.js such websockets and server callbacks are not Javascript entities but frequently used in Node.js
+iv.	In its simplest form, node is essentially a C program.
+v.	The code run by Node.js for Javascript is purely event-driven concept.
+vi.	The popularity of the event-driven  (asynchronous) style of programming is that it services number of  requests simultaneously using a single thread. That means no heavyweight context switching required , and no locking needed.
+The event loop is described in following figure.
+ 
+Figure 1: The Node.js event loop
+The event loop is a mechanism which allows us to specify what happens when a particular event occurs. This is similar to client-side Javascript buttons, when clicked act as trigger to an event known as onClick event. When the button is clicked, the code associated with the onClick event is run[4]. In Node.js, this idea is extended to filesystems: when a task related to reading or writing filesystem is started, it can hand over the control back to main loop of code in Node.js so there is no wait state for I/O operations. This is referred as ''asynchronous model of I/O operations".
+III.	NEED FOR AN ASYNCHRONOUS I/O MODEL
+The synchronous server has to wait for each request to get completed before processing the other request. After receiving the acknowledgment, the next request is handled. In real time business, a gap of few seconds could lead to slow performance and monetary loss.
+The two basic mechanism of code that factor significantly our code performance are Blocking and Non-blocking. 
+i.	Blocking Code: 
+A blocking code is the one which creates a deadlock in the execution of other processes. Typical blocking things in a code are:
+• Calls out to web services
+• Reads/Writes on the Database
+• Calls to extensions 
+A common example of blocking code is file-upload. During a file upload any other operation cannot be carried in the traditional model. This approach suffers from inefficiency and poor performance.
+The following figure shows a blocking code sample:
+ 
+Figure 2: The blocking code with filesystem
+The file read call will block the main loop executing and control is held by readfileSync function call, unless it gets completed, the following lines that are to prompt the contents of file cannot be executed in the mean.
+ii.	Non-blocking code
+Non-blocking code solves the issue of waiting by simply eliminating the ''wait'' state. The basic idea is : while we are reading from file, do other tasks in event list and execute them in parallel to reading file task.
+In modern programming environment, and application design, non-blocking codes offer great increase in performance and efficiency as our runtime is significantly reduced and execution becomes faster. 
+The non-blocking code figure is as follows.
+ Figure 3: Non-blocking code
+As seen in this code, the variable ''contents'' is not a return value from readfile instead it is passed separately in a function independent of fs.readFile.
+The contents of files can be shown on output as soon there are received.
+Using a callback function: The premise of  Node is that most part of code composes I/O functions i.e. I/O is bottleneck of our code. A single I/O operation can take millions of  CPU cycles, and in traditional, non-event-loop-based frameworks this will block the main loop for that time. I/O operations such as reading a file from database are performed asynchronously. We can say that with node, our control can be passed back to main loop while its in process of executing a code specified to run as reading from filesystem known as callback function.
+
+
+
+
+
+Figure 4: A simple alternative to callback function
+An asynchronous I/O model is the possible solution to the problem. In an asynchronous the server doesn’t wait for the execution of a function. An event listener is attached to the function. Whenever the function is executed its output is used as an input to the callback function. It ensures the concurrency of execution without blocking the execution of other code. This allows a high performance even in peak load.
+               
+                           
+                         Request
+
+                         Response  
+
+  Client                                         Server
+               Fig.5 Synchronous Model
+
+ 
+  
+              Fig.6 Asynchronous model
+The parallel execution of the tasks reduces the execution time significantly. The maximum execution time of the entire process is the execution time of the job with highest execution time.
+IV.	THE PROGRAMMING MODEL
+Asynchronous I/O is the core backbone of the Node platform.[5] It is a strict approach in which higher order function handles lower order function. Lower order functions are passed as a parameter to the high order functions .The lower order functions specifies what to do under some event.  The use of customized synchronous function is a rare occurrence. Normally, when I/O services are required , the function with the associated code is also passed as an argument. The control is then immediately returned to the caller. When the favorable event triggers the appropriate call back function is called.
+Code for HTTP server design is:
+ 
+
+
+
+
+A simple alternative to this code using node.js primitives such as callbacks is:  
+Figure 7: A simple HTTPServer using callbacks
+
+The code above is an implementation of an HTTP Web server that uses files from the hard disk . The JavaScript syntax is obvious to any programmer with exposure to any Java-like language. The function() syntax is the main focus in the code. It creates an anonymous function. The functional nature and support for higher order function of JavaScript is used here. The functions which are called determines the sequence of the code. Appropriate handlers handles the call back with which functions are registered.[3]
+The event loop for out HTTP server example using node.js is following:
+ 
+Figure 8: HTTP server code Event Loop
+The ubiquitous features of the event loop are hidden in the implementation of node’s behavior . The createServer function act as a wrapper to create HTTP server. The function is called whenever a data request is ready. The files in this code are being read asynchronously leading to concurrent execution of the code.
+The node process is started using the commend “node <js file>” . A single thread then run continuously in the backgroud using the event loop. The functions are registered in the event loop.  The appropriate event then triggers the call back function. 
+
+Singly thread Javascript code offer greater space for nonblocking I/O callbacks. In fact there has been a great surge in methods to develop concurrency and provide a Posix thread mockup to node.js. Instead of that, the single thread suffices to provide performance that is exceptionally better than multithreaded programming. 
+
+ 
+Figure 9: Complete JS flow for request to server
+
+V.	MULTIPLE CALLBACKS 
+For long running processes, multiple callbacks are required to ensure the task gets completed in given time. Lets say an HTTPServer is to be implemented using node.js but with a timeout function included. This timeout function will act as second callback function. Callback functions as stated in last section, specify the code to be run under a new call to function made.[1]
+Here is the sample HTTPServer with a timeout function:
+ 
+Figure 10: HTTPserver with timeout callback
+
+
+In this example of HTTPserver, a separate timeout callback is made. Provided, our node.js is running in asynchronous fashion, these two callbacks: one to reading file from server and other acting as timeout will be running in non-blocking structure of code.
+The two callbacks are:
+ 
+Figure 11: The two callbacks: request & timeout
+The timeout set in this example is 5 milli-second.
+The performance analysis of these two callbacks is critical but with prior knowledge of non-blocking I/O, its related to high efficiency and the timeline can be drawn as follows:
+ 
+Figure 12: Timeline for two callbacks (non-blocking)
+The above timeline is a fairly nice depiction of non-blocking mechanism embedded in Node.js. What happens is that the two events are almost started at the same time in the form of callbacks. Since Node.js is written in C, and C instincts show that every callback is divided further into many steps; each step follows other.
+Here all these steps are carefully divided such that our execution time could be reduced as low as possible. Now After the request callback executes for read filesystem, there follows the timeout event which is triggered and is completed after that. It is to be noted here that the part of Timeout which is triggered , is run the same time our request event proceeds. Had it been for blocking, it would have been more time consuming and with unexpected delays.[5]
+ 
+Figure 13: Blocking timeline for two callbacks
+The blocking timeline is show in above which clearly states the inchoate issue that is lying in a blocking code mechanism: there is an unexpected, uncertain amount of delay in first callback that causes second callback from initiation and execution. The timeout of 5ms is wasted time here. In modern web applications where browsers are upload thousands of metadata from each site, this delay is of serious figure and hampers the speed of file uploading notably.
+VI.	EVENTS IN NODE.JS
+Events in Node.js are an exact replication of what events mean in javascript when programming for client-side. In Javascript, any event such as click on button, or cursor hover or double click is a form of event. These on-click events are handled pretty much similar to DOM(document object module) events which is shown as follows:
+
+
+
+
+
+Figure 14: DOM events and triggers.
+The Node.js programming structure provides a similar interface built on events, where any action such connection to server emits an event.
+In Node.js , many objects emit events.
+ 
+Figure 15: Event emiiter example Node.js
+A net.Server emits an event each time a peer connects to it. An fs.readStream emits an event when the file is opened. All objects which emit events are instances ofevents.EventEmitter. You can access this module by doing: require("events"); .
+ 
+Figure 16: Custom event emitters with callbacks
+This figure shows how a custom event emitter can be made in our application design; here what we plan to do is whenever an event of logger.on is emited, a customized message is displayed to user. This gives user more flexibility to work around events, helps in better error-handling and event tracking for the record. 
+The amount of workaround these custom events gives great deal of accessibility and lax of working with Node.js applications.
+VII.	SECURITY PITFALLS IN NODE.JS
+This section discusses potential security pitfalls of the Node.js platform which we consider important based on relevant experience with Node.js and general web application design security.
+A. Fragile nature of Node.js applications
+It has been recursively mentioned how useful singly-threaded nature of Node.js has been mainly in achieving scalability of our web applications. But there is trade-off to that. This issue, being inherent in single threaded can result failure of complete application that is running. It has been said there is only one thread in whole of application, if for some reason , an unexpected value rises due to processing to large set of data, the control from main loop is lost and this implies blocking all other connections. This also becomes dangerously critical when including callback oriented program flow.
+B. Server Side Javascript Programming
+As mentioned earlier, Javascript is ubiquitous on client-side web programming. Since its legacy is affiliated to client side genesis, its main focus has been on browsers and small applications that interact with clients only. They are always executed in a context of a web page, no matter what the application might be. The reliability of Javascript and its development for client-side only has made surprising failures and termination when it started to run   on server-side. Because server-side are by definition application independent, they may interact with a client running on a browser and at same time with any standalone video-conferencing application. Some weak features of Javascript make it easy to falter into error zone and introduce serious security issues. With this, long term maintainance becomes a criticial issue with each callback nested into other. In simple words, our server-side Javascript code has to be revised every time we face upon such vulnerability issue.
+C. Error handling 
+Node.js was developed to provide interoperability rather than strict error handling. During its origin, the error handling responsibility was left on the user to decide what should be included in Node.JS platform. Optional error callbacks are being included but they are not fully functional. Node.js requires programmer to be intensively careful about any errors expected and write the code vigilantly. A small exception left unhandled will cause entire server to shut. There are various ways to tweak around these error handling exceptions like registering a listener for handling exceptions, preventing server poisoning etc. 
+VIII.	APPLICATIONS OF NODE.JS 
+
+Node.js finds variety of uses in the software industry it is quite useful for couple of situation where traditional approach fails. There are number of places where node can be used. Some of them are:
+
+Websocket Server: The asynchronous nature helps in creating websocket server. The overall functionality of server is increased to many folds. 
+
+Fast File Upload Client: File upload is another good example of blocking code. In synchronous model, the client has to wait for a file to be uploaded before performing any other action. The delay can be reduced using node. With an event handler the callbacks can be handled. The asynchronous nature of node helps in parallel execution of the different code. It increases performance and response time.
+
+
+Ad Server: Ad servers have to be responsive to display advertisement in real time. The delay in seconds can lead to business loss. Node is highly used to provide quick real time response.
+
+Ecommerce Website: Ecommerce websites are other potential users of node. Ecommerce websites including Ebay are shifting to node due to its non- blocking I/O model.
+The node is now widely accepted in the industry. Big name including like VMWare, LinkedIn are switching to 
+Node.js . 
+
+IX.	ACKNOWLEDGEMENTS
+This paper was developed with the help of Node.JS community and its online tutorials on this newly emerging platform.
+X.	CONCLUSION
+JavaScript has been in the industry for more than 15 years. It is world’s most used language. The user interface of any website is incomplete without JavaScript. JavaScript has much more to offer than it.
+
+Node.js truly explores the potential of JavaScript language. Many platforms existed before node but none of them tried to combine javascript on the backend. Node.JS is built on top of Google’s V8 engine. It is fastest JavaScript interpreter in the world purely implemented in C and C++ . It gives node platform superior performance than any other frameworks.
+Node uses non-blocking I/O and event driven features. 
+With non-blocking I/O parallel execution of different codes is possible without using multi-threading. The earlier use of multi-threading introduced the problem introduced the problems of synchronization and dead locks. The other useful feature of node is the support of event-driven programming. The event-driven programming is the programming paradigm in which a code is associated with an event. An event listener continuously listens for the event. When the favorable event is triggered the corresponding code is executed. The event-driven approach ensures scalability and real time web processing. Node.js is a software platform for network applications which simplifies the way fast and scalable network services, including web applications are implemented.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+REFERENCES:
+
+[1] Joyent, Inc. Node.js homepage. [Online]. Available: http://nodejs.org/
+[2] Yahoo Developer Network. (2010) Multi-Core HTTP Server with NodeJS. [Online]. Available: http://developer.yahoo.com/blogs/ydn/posts/2010/07/multicore http server with nodejs/
+
+[3] A. Deitcher, “Simplicity and performance: JavaScript on the server,” Linux Journal, vol. 204, no. 3, 2011.
+[4] J. Wegner. Why Node.JS? Security. [Online]. Available: http://www.wegnerdesign.com/blog/why-node-js-security/
+[5] Ojamaa, A., & Duuna, K. (2012, December). Assessing the security of Node. js platform. In Internet Technology And Secured Transactions, 2012 International Conferece For (pp. 348-355). IEEE.
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
